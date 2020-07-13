@@ -1,0 +1,74 @@
+
+FUNCTION maxvalue(root : ^BST) : INTEGER
+BEGIN
+
+    IF (root <> NULL ) THEN
+        IF (root^.RC= NULL) THEN
+            RETURN root^.VAL;
+                ELSE
+            RETURN maxvalue(root^.RC)
+        END_IF
+    END_IF
+END
+FUNCTION numberofnode(root : ^BST) : INTEGER
+VAR
+    sum:INTEGER:=1;
+BEGIN
+    IF (root^.LC!=NULL) THEN
+        sum:=sum+numberofnode(root^.LC);
+    END_IF
+    IF (root^.RC!=NULL) THEN
+        sum:=sum+numberofnode(root^.RC);
+    END_IF
+    RETURN sum ;
+END
+FUNCTION height(root: ^BST) : INTEGER
+VAR
+    maxh:INTEGER:=0;
+    maxleft:INTEGER;
+    maxright:INTEGER;
+BEGIN
+    IF (root=NULL) THEN
+        RETURN -1
+    ELSE
+        maxleft:=0;
+        maxright:=0;
+    END_IF
+    IF (root^.LC !=NULL) THEN
+        maxleft:=height(root^.LC);
+    END_IF
+    IF (root^.RC !=NULL) THEN
+        maxright:=height(root^.RC);
+    END_IF
+    IF (maxleft>maxright) THEN
+        maxh:=maxleft;
+    ELSE
+        maxh:=maxright;
+    END_IF
+    RETURN maxh ;
+END
+FUNCTION testfullbinary(root:^BST) : BOOLEAN
+BEGIN
+    IF (root = NULL) THEN
+        RETURN true;
+    END_IF
+    IF (root^.LC = NULL and root^.RC = NULL) THEN
+        RETURN true;
+    END_IF
+    IF ((root^.LC) and (root^.RC)) THEN
+        RETURN testfullbinary(root^.LC) and testfullbinary(root^.RC);
+    END_IF
+    RETURN false;
+END
+FUNCTION leafcount(root:^BST) : INTEGER
+
+BEGIN
+    IF (root=NULL) THEN
+        RETURN 0;
+    END_IF
+    IF (root^.LC=NULL and root^.RC=NULL) THEN
+        RETURN 1;
+    ELSE
+        RETURN leafcount(root^.LC)+leafcount(root^.RC) ;
+    END_IF
+END
